@@ -1,0 +1,15 @@
+{
+  "name": "Opaque",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Isaac",
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^3.10.0"
+  },
+  "scripts": {
+    "webpack-refresh": "node_modules/webpack/bin/webpack.js --config webpack.config.js",
+    "webpack-watch": "node_modules/webpack/bin/webpack.js --config webpack.config.js --watch"
+  }
+}
