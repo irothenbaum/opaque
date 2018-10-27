@@ -9,16 +9,18 @@ module.exports = () => {
         context: __dirname,
 
         // we don't specify the extension now, because we will later in the `resolve` section
-        entry: [
-            './js/game/index'
-        ],
-
+        entry: {
+            'opaque':'./game/main.js',
+            'opaque.min':'./game/main.js'
+        },
+        devtool: "source-map",
         output: {
             //where we want our compiled bundle to be stored
-            path: path.resolve('./js/'),
-
-            //naming convention webpack should use for our files
-            filename: 'opaque.js',
+            path: path.resolve('./'),
+            filename: "[name].js",
+            library: 'opaque',
+            libraryTarget: 'umd',
+            umdNamedDefine: true
         },
 
         module: {
@@ -33,8 +35,10 @@ module.exports = () => {
 
                     use: [
                         {
-                            // use babel to convert our ES6 into ES5
-                            loader: 'babel-loader'
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env']
+                            }
                         }
                     ]
                 }

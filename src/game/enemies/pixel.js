@@ -1,0 +1,5 @@
+
+
+class Pixel extends Enemy {
+
+}
