@@ -1,6 +1,6 @@
 const EnemySprite = require('./enemy')
 
-class Pixel extends Enemy {
+class Pixel extends EnemySprite {
     drawNormal(canvas, x, y, entity) {
         let context = canvas.getContext('2d')
         let sideSize = this.getBounding().width

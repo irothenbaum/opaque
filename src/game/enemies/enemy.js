@@ -9,6 +9,7 @@ class Enemy extends TC.Engine.Entity {
     constructor(options) {
         super(options)
 
+        this.setPosition(options.x, options.y)
         this.__pixelValue = options.pixel
         this.__pixelIndex = options.index
 
