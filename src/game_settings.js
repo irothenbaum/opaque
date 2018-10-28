@@ -5,3 +5,5 @@ class GameSettings {
         this.palette = 8 // basically types of enemies
     }
 }
+
+module.exports = GameSettings

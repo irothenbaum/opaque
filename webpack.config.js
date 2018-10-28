@@ -10,8 +10,8 @@ module.exports = () => {
 
         // we don't specify the extension now, because we will later in the `resolve` section
         entry: {
-            'opaque':'./game/main.js',
-            'opaque.min':'./game/main.js'
+            'opaque':'./src/main.js',
+            'opaque.min':'./src/main.js'
         },
         devtool: "source-map",
         output: {
