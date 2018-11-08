@@ -17,6 +17,10 @@ function hasHealthRemaining(health) {
 }
 
 class Enemy extends TC.Engine.Appearance {
+    static get COLOR_CYAN() { return '#00FFFF'; }
+    static get COLOR_MAGENTA() { return '#FF00FF'; }
+    static get COLOR_YELLOW() { return '#FFFF00'; }
+
     constructor(options) {
         super(options)
 

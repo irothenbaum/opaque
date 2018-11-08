@@ -1,6 +1,7 @@
 const TC = require('../../TwoCylinder/dist/twocylinder')
 const GameSettings = require('./game_settings')
 const LevelController = require('./game/level_controller')
+const Player = require('./game/player')
 
 let canvas;
 
@@ -71,7 +72,8 @@ class OpaqueGame extends TC.Engine.Game {
         world.addView(view)
 
         // create our player
-        // world.addInstance()
+        this.player = new Player({})
+        world.addInstance(this.player)
 
         // create our levelController
         this.levelController = new LevelController({world: world})
