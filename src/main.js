@@ -2,6 +2,7 @@ const TC = require('../../TwoCylinder/dist/twocylinder')
 const GameSettings = require('./game_settings')
 const LevelController = require('./game/level_controller')
 const Player = require('./game/player')
+const MouseControl = require('./game/io/mouseControl')
 
 let canvas;
 
@@ -17,6 +18,8 @@ class OpaqueGame extends TC.Engine.Game {
         canvas = window.document.getElementById('world')
         this.gameSettings = new GameSettings()
         // TODO: load the settings from session?
+
+        window.DEBUG = true;
 
         this.enter(STATE_MENU)
     }
@@ -82,6 +85,10 @@ class OpaqueGame extends TC.Engine.Game {
         // create our hud
 
         // create our IO
+        let mouseControl = new MouseControl({
+            view: view,
+            player: this.player
+        })
 
         this.setWorld(world)
     }

@@ -34,22 +34,35 @@ class Player extends TC.Engine.Appearance {
             originY
         } = this.__getDrawConsts(...arguments)
 
-        let turretCenter = y + (2 * turretRadius)
-        let ydiff = turretCenter - originY;
-        context.translate(x, turretCenter)
-        context.rotate(entity.getDirection())
+        // the difference between the top/left of our drawing and the center of our entity
+        let ydiff = y - originY;
+        let xdiff = x - originX;
+        context.translate(x, y)
+        // we rotate an extra 90degrees because we draw with 0 at 12:00, but really 0 degrees is at 3:00 (on a clock)
+        context.rotate(entity.getDirection() + Math.PI/2)
         this.drawTurret(context, 0, 0)
         this.drawMuzzle(context, -muzzleWidth / 2, -ydiff)
         this.drawBarrel(context, -barrelWidth / 2, -ydiff + muzzleHeight)
         this.drawStock(context, -stockWidth / 2, -ydiff + muzzleHeight + barrelHeight)
         this.drawVision(context, barrelWidth / 2, -ydiff + muzzleHeight + barrelHeight, entity)
-        context.rotate(-entity.getDirection())
-        context.translate(-x, -turretCenter)
+        if (window.DEBUG) {
+            context.beginPath()
+            context.strokeStyle = '#777';
+            context.fillStyle = 'rgba(0,0,0,0.1)'
+            // Shift back the muzzle height -- @see __getDrawConsts
+            context.rect(-xdiff, -ydiff + muzzleHeight, width, height);
+            context.fill()
+            context.stroke()
+            context.closePath()
+        }
+        context.rotate(-entity.getDirection() - Math.PI/2)
+        context.translate(-x, -y)
+
     }
 
     drawMuzzle(context, originX, originY) {
         context.beginPath()
-        context.fillStyle = '#111'
+        context.fillStyle = '#333'
         context.rect(originX, originY, muzzleWidth, muzzleHeight)
         context.fill()
     }
@@ -57,10 +70,10 @@ class Player extends TC.Engine.Appearance {
     drawBarrel(context, originX, originY) {
         context.beginPath()
         let gradient = context.createLinearGradient(originX, originY, originX + barrelWidth, originY)
-        gradient.addColorStop(0, '#555')
-        gradient.addColorStop(.33, '#aaa')
-        gradient.addColorStop(.66, '#aaa')
-        gradient.addColorStop(1, '#555')
+        gradient.addColorStop(0, '#ddd')
+        gradient.addColorStop(.33, '#fff')
+        gradient.addColorStop(.66, '#fff')
+        gradient.addColorStop(1, '#ddd')
         context.fillStyle = gradient
         context.rect(originX, originY, barrelWidth, barrelHeight)
         context.fill()
@@ -68,8 +81,8 @@ class Player extends TC.Engine.Appearance {
 
     drawStock(context, originX, originY) {
         context.beginPath()
-        context.fillStyle = '#ddd'
-        context.strokeStyle = '#333'
+        context.fillStyle = '#fff'
+        context.strokeStyle = '#ddd'
         context.rect(originX, originY, stockWidth, stockHeight)
         context.fill()
         context.stroke()
@@ -78,8 +91,8 @@ class Player extends TC.Engine.Appearance {
     drawTurret(context, turretCenterX, turretCenterY) {
         context.beginPath()
         context.arc(turretCenterX, turretCenterY, turretRadius, 0, TC.Utilities.Constants.TAU)
-        context.fillStyle = '#444'
-        context.strokeStyle = '#111'
+        context.fillStyle = '#ddd'
+        context.strokeStyle = '#ccc'
         context.fill()
         context.stroke()
     }
@@ -101,8 +114,8 @@ class Player extends TC.Engine.Appearance {
 
         // draw the camera body
         context.beginPath()
-        context.fillStyle = '#ddd'
-        context.strokeStyle = '#333'
+        context.fillStyle = '#fff'
+        context.strokeStyle = '#ddd'
         context.rect(originX, originY + bulbRadius, visionWidth, visionHeight)
         context.fill()
         context.stroke()
@@ -115,7 +128,10 @@ class Player extends TC.Engine.Appearance {
             width: box.width,
             height: box.height,
             originX : box.origin_x,
-            originY : box.origin_y
+
+            // we don't want to include the muzzle in our collision box so we shift the entire drawing up that amount
+            // and the bounding box is sized to include the rest of the turret
+            originY : box.origin_y - muzzleHeight
         }
     }
 }

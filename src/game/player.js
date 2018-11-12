@@ -6,8 +6,8 @@ class Player extends TC.Engine.Entity {
         options.bounding = new TC.Engine.BoundingBox({
             origin_x: 350,
             origin_y: 600,
-            width: 30,
-            height: 60,
+            width: 50,
+            height: 88,
         })
         // they share a bounding
         options.appearance = new PlayerSprite({
@@ -21,18 +21,14 @@ class Player extends TC.Engine.Entity {
             opacity = 1
         }
 
+        // TODO: Determine the actual color based on what ammo is being used
+        let color = PlayerSprite.COLOR_CYAN;
+
         if (opacity !== 1) {
-            return PlayerSprite.COLOR_CYAN.replace(',1)',','+opacity+')');
+            return color.replace(',1)',','+opacity+')');
         } else {
-            return PlayerSprite.COLOR_CYAN
+            return color
         }
-    }
-
-    preStep() {
-        super.preStep(...arguments)
-
-        let newDirection = this.getDirection() + (Math.PI/180)
-        this.setDirection(newDirection % TC.Utilities.Constants.TAU)
     }
 }
 
